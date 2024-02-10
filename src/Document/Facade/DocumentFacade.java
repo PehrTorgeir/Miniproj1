@@ -1,11 +1,17 @@
 package Document.Facade;
 
+import java.time.LocalDate;
+
+import Document.AcademicCalendar;
 import Document.DocumentType;
+import Document.ExamDocument;
 import Document.CompositeDocument.CompositeDocumentComponent;
 import Document.CompositeDocument.DocumentComponent;
-import Document.ExamDocumentComponents.Author;
-import Document.ExamDocumentComponents.Paragraph;
-import Document.ExamDocumentComponents.Title;
+import Document.DocumentComponents.Author;
+import Document.DocumentComponents.Matrix;
+import Document.DocumentComponents.Paragraph;
+import Document.DocumentComponents.Table;
+import Document.DocumentComponents.Title;
 import Factory.ConcreteDocumentFactory;
 
 public class DocumentFacade {
@@ -80,6 +86,27 @@ public class DocumentFacade {
 
     public void printDocument(CompositeDocumentComponent document) {
         document.print();
+    }
+
+    public void addTableToExamDocument(CompositeDocumentComponent examDocument, String[]... rows) {
+        Table table = new Table();
+        for (String[] row : rows) {
+            table.addRow(row);
+        }
+        examDocument.addComponent(table);
+    }
+
+    public void addMatrixToExamDocument(CompositeDocumentComponent examDocument, double[][] data) {
+        if (examDocument instanceof ExamDocument) {
+            examDocument.addComponent(new Matrix(data));
+        }
+    }
+
+    public void addDateToAcademicCalendar(CompositeDocumentComponent academicCalendar, LocalDate date,
+            String description) {
+        if (academicCalendar instanceof AcademicCalendar) {
+            ((AcademicCalendar) academicCalendar).addDate(date, description);
+        }
     }
 
 }

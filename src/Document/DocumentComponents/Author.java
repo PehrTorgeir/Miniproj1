@@ -1,4 +1,4 @@
-package Document.ExamDocumentComponents;
+package Document.DocumentComponents;
 
 import Document.CompositeDocument.DocumentComponent;
 
