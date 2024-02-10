@@ -1,7 +1,9 @@
 
 import Document.CompositeDocument.CompositeDocumentComponent;
+import Document.CompositeDocument.DocumentComponent;
 import Document.DocumentComponents.Paragraph;
 import Document.Facade.DocumentFacade;
+import Iterator.DocumentIterator;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,10 +28,13 @@ public class Main {
         facade.updateTitle(examDocument, "Updated Final Exam");
         facade.updateAuthor(examDocument, "Jane Smith");
 
-        facade.printDocument(examDocument);
         facade.removeComponentById(examDocument, "2");
 
-        facade.printDocument(examDocument);
+        DocumentIterator iterator = examDocument.iterator();
+        while (iterator.hasNext()) {
+            DocumentComponent component = iterator.next();
+            component.print();
 
+        }
     }
 }

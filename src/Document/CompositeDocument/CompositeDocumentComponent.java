@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Iterator.CompositeDocumentComponentIterator;
+import Iterator.DocumentIterator;
+
 public abstract class CompositeDocumentComponent implements DocumentComponent {
     private List<DocumentComponent> components = new ArrayList<>();
 
@@ -25,5 +28,9 @@ public abstract class CompositeDocumentComponent implements DocumentComponent {
         return Collections.unmodifiableList(components);
 
     }
-    
+
+    public DocumentIterator iterator() {
+        return new CompositeDocumentComponentIterator(this);
+    }
+
 }
