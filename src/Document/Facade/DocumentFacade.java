@@ -1,13 +1,14 @@
 package Document.Facade;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import Document.AcademicCalendar;
 import Document.DocumentType;
-
+import Document.ExamDocument;
 import Document.CompositeDocument.CompositeDocumentComponent;
 import Document.CompositeDocument.DocumentComponent;
 import Document.DocumentComponents.Author;
+import Document.DocumentComponents.Date;
 import Document.DocumentComponents.Matrix;
 import Document.DocumentComponents.Paragraph;
 import Document.DocumentComponents.Table;
@@ -31,22 +32,23 @@ public class DocumentFacade {
     }
 
     public CompositeDocumentComponent createLetterDocument(String title, String authorName, String paragraphText) {
-        CompositeDocumentComponent examDocument = (CompositeDocumentComponent) factory
-                .createDocument(DocumentType.ExamDocument);
-        examDocument.addComponent(new Title(title));
-        examDocument.addComponent(new Author(authorName));
-        examDocument.addComponent(new Paragraph(paragraphText));
-        return examDocument;
+        CompositeDocumentComponent letterDocument = (CompositeDocumentComponent) factory
+                .createDocument(DocumentType.LetterDocument);
+        letterDocument.addComponent(new Title(title));
+        letterDocument.addComponent(new Author(authorName));
+        letterDocument.addComponent(new Paragraph(paragraphText));
+        return letterDocument;
     }
 
     public CompositeDocumentComponent createAcademicCalendarDocument(String title, String authorName,
-            String paragraphText) {
-        CompositeDocumentComponent examDocument = (CompositeDocumentComponent) factory
-                .createDocument(DocumentType.ExamDocument);
-        examDocument.addComponent(new Title(title));
-        examDocument.addComponent(new Author(authorName));
-        examDocument.addComponent(new Paragraph(paragraphText));
-        return examDocument;
+            String paragraphText, String id, LocalDateTime date) {
+        CompositeDocumentComponent academicCalendar = (CompositeDocumentComponent) factory
+                .createDocument(DocumentType.AcademicCalendar);
+        academicCalendar.addComponent(new Title(title));
+        academicCalendar.addComponent(new Author(authorName));
+        academicCalendar.addComponent(new Paragraph(paragraphText));
+        academicCalendar.addComponent(new Date(id, date));
+        return academicCalendar;
     }
 
     public void addParagraph(CompositeDocumentComponent document, String paragraphText) {
@@ -73,6 +75,7 @@ public class DocumentFacade {
         document.addComponent(new Author(newAuthor));
     }
 
+    // used for removing title,paragraph or author only.
     public void removeComponent(CompositeDocumentComponent document, String content) {
         DocumentComponent componentToRemove = document.getComponents().stream()
                 .filter(c -> c.matches(content))
@@ -89,25 +92,27 @@ public class DocumentFacade {
     }
 
     public void addTableToExamDocument(CompositeDocumentComponent examDocument, String id, String[]... rows) {
-        Table table = new Table(id, rows);
-        for (String[] row : rows) {
-            table.addRow(row);
+        if (examDocument instanceof ExamDocument) {
+            Table table = new Table(id, rows);
+            for (String[] row : rows) {
+                table.addRow(row);
+            }
+            examDocument.addComponent(table);
+        } else {
+            throw new IllegalArgumentException("This document type does not support tables.");
         }
-        examDocument.addComponent(table);
     }
 
     public void addMatrixToExamDocument(CompositeDocumentComponent examDocument, String id, double[]... rows) {
-        Matrix matrix = new Matrix(id, rows);
-        examDocument.addComponent(matrix);
-    }
-
-    public void addDateToAcademicCalendar(CompositeDocumentComponent academicCalendar, String id, LocalDate date,
-            String description) {
-        if (academicCalendar instanceof AcademicCalendar) {
-            ((AcademicCalendar) academicCalendar).addDate(id, date, description);
+        if (examDocument instanceof ExamDocument) {
+            Matrix matrix = new Matrix(id, rows);
+            examDocument.addComponent(matrix);
+        } else {
+            throw new IllegalArgumentException("This document type does not support tables.");
         }
     }
 
+    // used to remove matrix or table from documents
     public void removeComponentById(CompositeDocumentComponent document, String componentId) {
         DocumentComponent componentToRemove = document.getComponents().stream()
                 .filter(c -> c.matches(componentId))
@@ -118,5 +123,7 @@ public class DocumentFacade {
             document.removeComponent(componentToRemove);
         }
     }
+
+    
 
 }

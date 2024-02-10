@@ -1,9 +1,9 @@
 package Document;
 
-import java.time.LocalDate;
+
 
 import Document.CompositeDocument.CompositeDocumentComponent;
-import Document.DocumentComponents.Date;
+
 
 public class AcademicCalendar extends CompositeDocumentComponent {
 
@@ -13,8 +13,6 @@ public class AcademicCalendar extends CompositeDocumentComponent {
         return false;
     }
 
-    public void addDate(String id, LocalDate date, String description) {
-        this.addComponent(new Date(id, date, description));
-    }
+   
 
 }

@@ -1,9 +1,12 @@
 package Document.CompositeDocument;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import Document.DocumentComponents.Date;
 import Iterator.CompositeDocumentComponentIterator;
 import Iterator.DocumentIterator;
 
@@ -31,6 +34,18 @@ public abstract class CompositeDocumentComponent implements DocumentComponent {
 
     public DocumentIterator iterator() {
         return new CompositeDocumentComponentIterator(this);
+    }
+
+    public void updateDate(String id, LocalDateTime newDate) {
+        for (DocumentComponent comp : components) {
+            if (comp instanceof Date) {
+                Date dateComp = (Date) comp;
+                if (dateComp.getId().equals(id)) {
+                    dateComp.setDate(newDate);
+                    break;
+                }
+            }
+        }
     }
 
 }
