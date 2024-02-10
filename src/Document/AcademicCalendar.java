@@ -13,8 +13,8 @@ public class AcademicCalendar extends CompositeDocumentComponent {
         return false;
     }
 
-    public void addDate(LocalDate date, String description) {
-        this.addComponent(new Date(date, description));
+    public void addDate(String id, LocalDate date, String description) {
+        this.addComponent(new Date(id, date, description));
     }
 
 }

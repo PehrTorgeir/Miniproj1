@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import Document.AcademicCalendar;
 import Document.DocumentType;
-import Document.ExamDocument;
+
 import Document.CompositeDocument.CompositeDocumentComponent;
 import Document.CompositeDocument.DocumentComponent;
 import Document.DocumentComponents.Author;
@@ -88,24 +88,34 @@ public class DocumentFacade {
         document.print();
     }
 
-    public void addTableToExamDocument(CompositeDocumentComponent examDocument, String[]... rows) {
-        Table table = new Table();
+    public void addTableToExamDocument(CompositeDocumentComponent examDocument, String id, String[]... rows) {
+        Table table = new Table(id, rows);
         for (String[] row : rows) {
             table.addRow(row);
         }
         examDocument.addComponent(table);
     }
 
-    public void addMatrixToExamDocument(CompositeDocumentComponent examDocument, double[][] data) {
-        if (examDocument instanceof ExamDocument) {
-            examDocument.addComponent(new Matrix(data));
+    public void addMatrixToExamDocument(CompositeDocumentComponent examDocument, String id, double[]... rows) {
+        Matrix matrix = new Matrix(id, rows);
+        examDocument.addComponent(matrix);
+    }
+
+    public void addDateToAcademicCalendar(CompositeDocumentComponent academicCalendar, String id, LocalDate date,
+            String description) {
+        if (academicCalendar instanceof AcademicCalendar) {
+            ((AcademicCalendar) academicCalendar).addDate(id, date, description);
         }
     }
 
-    public void addDateToAcademicCalendar(CompositeDocumentComponent academicCalendar, LocalDate date,
-            String description) {
-        if (academicCalendar instanceof AcademicCalendar) {
-            ((AcademicCalendar) academicCalendar).addDate(date, description);
+    public void removeComponentById(CompositeDocumentComponent document, String componentId) {
+        DocumentComponent componentToRemove = document.getComponents().stream()
+                .filter(c -> c.matches(componentId))
+                .findFirst()
+                .orElse(null);
+
+        if (componentToRemove != null) {
+            document.removeComponent(componentToRemove);
         }
     }
 

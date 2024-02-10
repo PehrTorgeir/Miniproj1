@@ -7,20 +7,22 @@ import Document.CompositeDocument.DocumentComponent;
 public class Date implements DocumentComponent {
     private LocalDate date;
     private String description;
+    private String id;
 
-    public Date(LocalDate date, String description) {
+    public Date(String id, LocalDate date, String description) {
+        this.id = id;
         this.date = date;
         this.description = description;
     }
 
     @Override
     public void print() {
-        // Implement printing logic for dates
+        System.out.println("Date: " + date + " booking: " + description);
     }
 
     @Override
     public boolean matches(String criterion) {
-        
-        return description.equalsIgnoreCase(criterion);
+
+        return id.equals(criterion);
     }
 }
