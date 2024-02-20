@@ -1,65 +1,72 @@
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
+import Document.DocumentType;
 import Document.CompositeDocument.CompositeDocumentComponent;
-import Document.CompositeDocument.DocumentComponent;
-import Document.DocumentComponents.Paragraph;
+
+import Document.DocumentComponents.DocumentComponentType;
+
 import Document.Facade.DocumentFacade;
-import Iterator.DocumentIterator;
 
 public class Main {
     public static void main(String[] args) {
+
         DocumentFacade facade = new DocumentFacade();
 
+        CompositeDocumentComponent examDocument = facade.createDocument(DocumentType.ExamDocument);
+
+        facade.addComponent(examDocument, DocumentComponentType.Title, "Exam Title");
+
+        facade.addComponent(examDocument, DocumentComponentType.Paragraph, "This is an introductory paragraph.");
+        facade.editComponent(examDocument, "This is an introductory paragraph.", DocumentComponentType.Paragraph,
+                "test1");
+        facade.editComponent(examDocument, "test1", DocumentComponentType.Paragraph, "test2");
+        facade.addComponent(examDocument, DocumentComponentType.Paragraph, "This is an introductory paragraph.");
+        facade.addComponent(examDocument, DocumentComponentType.Table, "1","2","3","4");
+        facade.printDocument(examDocument);
+
+        String htmlDocument = facade.buildHtmlDocument(examDocument);
+
+        // Output the HTML
+        System.out.println(htmlDocument);
+
         /*
-         * CompositeDocumentComponent examDocument = facade.createExamDocument(
-         * "Final Exam",
-         * "John Doe");
          * 
-         * Paragraph paragraph1 = new
-         * Paragraph("Please answer the following questions.");
          * 
-         * facade.addParagraph(examDocument, paragraph1.getText());
-         * facade.addParagraph(examDocument, "Question 1: Explain the Facade pattern.");
-         * facade.addParagraph(examDocument,
-         * "Question 2: Describe the Factory pattern.");
          * 
-         * facade.addTableToExamDocument(examDocument, "1", new String[] { "Header1",
-         * "Header2" },
-         * new String[] { "Row1Col1", "Row1Col2" }, new String[] { "Row2Col1",
-         * "Row2Col2" });
-         * facade.addMatrixToExamDocument(examDocument, "2", new double[] { 1.0, 2.0 },
-         * new double[] { 3.0, 4.0 });
+         * facade.addComponent(examDocument, DocumentComponentType.Date, "2023-05-15");
          * 
-         * facade.removeComponent(examDocument,
-         * "Please answer the following questions.");
          * 
-         * facade.updateTitle(examDocument, "Updated Final Exam");
-         * facade.updateAuthor(examDocument, "Jane Smith");
+         * System.out.println("Document after adding components:");
+         * examDocument.print();
          * 
-         * facade.removeComponentById(examDocument, "2");
          * 
-         * DocumentIterator iterator = examDocument.iterator();
-         * while (iterator.hasNext()) {
-         * DocumentComponent component = iterator.next();
-         * component.print();
+         * facade.removeComponent(examDocument, "This is an introductory paragraph.");
          * 
-         * }
+         * 
+         * String oldTitle = "Exam Title";
+         * String newTitle = "Updated Exam Title";
+         * facade.editComponent(examDocument, oldTitle, DocumentComponentType.Title,
+         * newTitle);
+         * 
+         * 
+         * System.out.
+         * println("\nDocument after editing the title and removing the paragraph:");
+         * examDocument.print();
+         * 
+         * 
+         * facade.undoLastAction();
+         * facade.undoLastAction();
+         * 
+         * 
+         * System.out.println("\nDocument after undo operations:");
+         * examDocument.print();
+         * 
+         * 
+         * facade.redoLastAction();
+         * facade.redoLastAction();
+         * 
+         * System.out.println("\nDocument after redo operations:");
+         * examDocument.print();
          */
 
-        CompositeDocumentComponent academicDocument = facade.createAcademicCalendarDocument("möte2", "pehr",
-                "möte med chefen", "1", LocalDateTime.now());
-        DocumentIterator it = academicDocument.iterator();
-        while (it.hasNext()) {
-            DocumentComponent component = it.next();
-            component.print();
-        }
-        academicDocument.updateDate("1", LocalDateTime.now().plusDays(10));
-        DocumentIterator it2 = academicDocument.iterator();
-        while (it2.hasNext()) {
-            DocumentComponent component2 = it2.next();
-            component2.print();
-        }
     }
 }

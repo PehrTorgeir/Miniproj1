@@ -1,16 +1,20 @@
 package Document.DocumentComponents;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import Document.CompositeDocument.DocumentComponent;
 
 public class Date implements DocumentComponent {
-    private LocalDateTime date;
+    private LocalDate date;
 
     private String id;
 
-    public Date(String id, LocalDateTime date) {
-        this.id = id;
+    public Date() {
+
+    }
+
+    public Date(LocalDate date) {
+
         this.date = date;
 
     }
@@ -26,15 +30,20 @@ public class Date implements DocumentComponent {
         return id.equals(criterion);
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
     public String getId() {
         return this.id;
+    }
+
+    @Override
+    public String toHtml() {
+        return "<label>" + this.date + "</label>";
     }
 }

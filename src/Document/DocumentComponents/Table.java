@@ -10,6 +10,10 @@ public class Table implements DocumentComponent {
     String id;
     private List<String[]> rows = new ArrayList<>();
 
+    public Table() {
+
+    }
+
     public Table(String id, String[]... initialRows) {
         this.id = id;
         Arrays.stream(initialRows).forEach(rows::add);
@@ -17,6 +21,14 @@ public class Table implements DocumentComponent {
 
     public void addRow(String... rowData) {
         rows.add(rowData);
+    }
+
+    public List<String[]> getTable() {
+        return this.rows;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -31,4 +43,20 @@ public class Table implements DocumentComponent {
         return id.equals(criterion);
 
     }
+
+    @Override
+    public String toHtml() {
+
+        StringBuilder html = new StringBuilder("<table id=" + id + ">\n");
+        for (String[] row : rows) {
+            html.append("<tr>\n");
+            for (String cell : row) {
+                html.append("<td>").append(cell).append("</td>\n");
+            }
+            html.append("</tr>\n");
+        }
+        html.append("</table>");
+        return html.toString();
+    }
+
 }

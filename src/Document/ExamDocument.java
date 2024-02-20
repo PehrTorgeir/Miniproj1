@@ -9,15 +9,12 @@ public class ExamDocument extends CompositeDocumentComponent {
         // only avalible for leaf classes
         return false;
     }
-    // TODO 
-    /*
-     * public void addTable(Table table) {
-     * super.addComponent(table);
-     * }
-     * 
-     * public void addMatrix(Matrix matrix) {
-     * super.addComponent(matrix);
-     * }
-     */
+
+    @Override
+    public String toHtml() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toHtml'");
+    }
+   
 
 }

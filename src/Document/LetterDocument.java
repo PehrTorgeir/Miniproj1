@@ -10,4 +10,10 @@ public class LetterDocument extends CompositeDocumentComponent {
         return false;
     }
 
+    @Override
+    public String toHtml() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toHTML'");
+    }
+
 }
