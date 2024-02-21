@@ -37,4 +37,10 @@ public class Title implements DocumentComponent {
     public String toHtml() {
         return "<h1>" + this.title + "<h1>";
     }
+
+
+    @Override
+    public String toMarkdown() {
+        return "# " + title;  
+    }
 }

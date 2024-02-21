@@ -41,4 +41,10 @@ public class Paragraph implements DocumentComponent {
         return "<p>" + this.content + "<p>";
     }
 
+
+    @Override
+    public String toMarkdown() {
+        return this.content;
+    }
+
 }

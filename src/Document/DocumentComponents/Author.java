@@ -28,4 +28,10 @@ public class Author implements DocumentComponent {
     public String toHtml() {
         return "<div id=author>" + this.author + "</div>";
     }
+
+
+    @Override
+    public String toMarkdown() {
+        return "**Author:** " + author;
+    }
 }

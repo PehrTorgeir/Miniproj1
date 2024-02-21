@@ -2,22 +2,17 @@ package Document.DocumentComponents;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import Document.CompositeDocument.DocumentComponent;
 
 public class Matrix implements DocumentComponent {
     private String id;
-    private List<double[]> rows = new ArrayList<>();
+    private ArrayList<double[]> rows;
 
-    public Matrix() {
-
-    }
-
-    public Matrix(String id, double[]... initialRows) {
+    public Matrix(String id) {
         this.id = id;
-        Arrays.stream(initialRows).forEach(rows::add);
+        this.rows = new ArrayList<>();
     }
 
     public void addRow(double... rowData) {
@@ -55,5 +50,18 @@ public class Matrix implements DocumentComponent {
         }
         html.append("</table>");
         return html.toString();
+    }
+
+    @Override
+    public String toMarkdown() {
+        StringBuilder markdown = new StringBuilder();
+        for (double[] row : rows) {
+            markdown.append("| ");
+            for (double cell : row) {
+                markdown.append(cell).append(" |");
+            }
+            markdown.append("\n");
+        }
+        return markdown.toString();
     }
 }

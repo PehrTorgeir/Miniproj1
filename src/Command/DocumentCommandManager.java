@@ -10,10 +10,7 @@ public class DocumentCommandManager {
         command.execute();
         undoStack.push(command);
         redoStack.clear();
-        
-        
     }
-
     public void undo() {
         if (!undoStack.isEmpty()) {
             Command command = undoStack.pop();
@@ -21,7 +18,6 @@ public class DocumentCommandManager {
             redoStack.push(command);
         }
     }
-
     public void redo() {
         if (!redoStack.isEmpty()) {
             Command command = redoStack.pop();

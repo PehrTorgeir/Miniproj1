@@ -20,6 +20,7 @@ public abstract class CompositeDocumentComponent implements DocumentComponent {
     public boolean removeComponent(DocumentComponent component) {
         return components.remove(component);
     }
+    
 
     public void print() {
         for (DocumentComponent component : components) {

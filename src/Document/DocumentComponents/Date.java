@@ -46,4 +46,10 @@ public class Date implements DocumentComponent {
     public String toHtml() {
         return "<label>" + this.date + "</label>";
     }
+
+
+    @Override
+    public String toMarkdown() {
+        return date.toString(); 
+    }
 }

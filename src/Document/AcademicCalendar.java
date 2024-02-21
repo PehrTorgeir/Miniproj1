@@ -3,6 +3,8 @@ package Document;
 
 
 import Document.CompositeDocument.CompositeDocumentComponent;
+import Document.CompositeDocument.DocumentComponent;
+import Document.DocumentConverter.MarkdownBuilder;
 
 
 public class AcademicCalendar extends CompositeDocumentComponent {
@@ -15,8 +17,29 @@ public class AcademicCalendar extends CompositeDocumentComponent {
 
     @Override
     public String toHtml() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toHTML'");
+        
+        StringBuilder html = new StringBuilder("<div class='Academic-Calendar'>\n");
+
+      
+        for (DocumentComponent component : getComponents()) {
+            html.append(component.toHtml()).append("\n");
+        }
+
+        html.append("</div>");
+        return html.toString();
+    }
+
+
+
+    @Override
+    public String toMarkdown() {
+        MarkdownBuilder builder = new MarkdownBuilder().startSection("Academic Calendar");
+
+        for (DocumentComponent component : getComponents()) {
+            builder.addComponent(component);
+        }
+
+        return builder.endSection().build();
     }
 
    

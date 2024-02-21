@@ -17,10 +17,18 @@ public class DocumentComponentFactory {
             case Paragraph:
                 return new Paragraph(args[0]);
             case Table:
-                return new Table(args[0], convertToString2DArray(Arrays.copyOfRange(args, 1, args.length)));
-            case Matrix:
+
+                if (args.length < 2) {
+                    throw new IllegalArgumentException("Table must have at least an ID and one header.");
+                }
                 
-                return new Matrix(args[0], convertToDouble2DArray(Arrays.copyOfRange(args, 1, args.length)));
+                return new Table(args[0], Arrays.copyOfRange(args, 1, args.length));
+            case Matrix:
+                if (args.length < 1) {
+                    throw new IllegalArgumentException("Matrix must have at least an ID.");
+                }
+                
+                return new Matrix(args[0]);
             case Date:
                 return new Date(parseDate(args[0]));
             case Author:
@@ -29,20 +37,6 @@ public class DocumentComponentFactory {
                 throw new IllegalArgumentException("Invalid documentCompoent type: " + type);
         }
 
-    }
-
-    private double[][] convertToDouble2DArray(String[] stringData) {
-        return Arrays.stream(stringData)
-                .map(row -> Arrays.stream(row.split(","))
-                        .mapToDouble(Double::parseDouble)
-                        .toArray())
-                .toArray(double[][]::new);
-    }
-
-    private String[][] convertToString2DArray(String[] stringData) {
-        return Arrays.stream(stringData)
-                .map(row -> row.split(","))
-                .toArray(String[][]::new);
     }
 
     private LocalDate parseDate(String dateString) {

@@ -7,19 +7,21 @@ import java.util.List;
 import Document.CompositeDocument.DocumentComponent;
 
 public class Table implements DocumentComponent {
-    String id;
-    private List<String[]> rows = new ArrayList<>();
+    private String id;
+    private ArrayList<String> headers;
+    private ArrayList<String[]> rows;
 
-    public Table() {
-
-    }
-
-    public Table(String id, String[]... initialRows) {
+    public Table(String id, String... headers) {
         this.id = id;
-        Arrays.stream(initialRows).forEach(rows::add);
+        this.headers = new ArrayList<>(Arrays.asList(headers));
+        this.rows = new ArrayList<>();
+        System.out.println("hej");
     }
 
     public void addRow(String... rowData) {
+        if (rowData.length != headers.size()) {
+            throw new IllegalArgumentException("The number of row data elements must match the number of headers.");
+        }
         rows.add(rowData);
     }
 
@@ -33,6 +35,7 @@ public class Table implements DocumentComponent {
 
     @Override
     public void print() {
+        System.out.println(String.join("\t", headers));
         rows.stream()
                 .map(row -> String.join("\t", row))
                 .forEach(System.out::println);
@@ -57,6 +60,32 @@ public class Table implements DocumentComponent {
         }
         html.append("</table>");
         return html.toString();
+    }
+
+    @Override
+    public String toMarkdown() {
+        StringBuilder markdown = new StringBuilder();
+
+        markdown.append("<!-- Table ID: ").append(id).append(" -->\n");
+
+        markdown.append("| ").append(String.join(" | ", headers)).append(" |\n");
+
+        markdown.append("|").append(" --- |".repeat(headers.size())).append("\n");
+
+        for (String[] row : rows) {
+            markdown.append("| ").append(String.join(" | ", row)).append(" |\n");
+        }
+
+        return markdown.toString();
+    }
+
+    public void removeLastRow() {
+        if (rows.size() > 0) {
+            System.out.println(rows.size() - 1);
+            rows.remove(rows.size() - 1);
+        } else {
+            throw new IllegalStateException("Cannot remove a row from an empty table.");
+        }
     }
 
 }
